@@ -44,7 +44,7 @@ function! mlirview#HighlightLowered()
 endfunction
 
 " Command to open files side-by-side
-command! -nargs=2 MLIRView call mlirview#Open(<f-args>)
+command! -nargs=* MLIRView call mlirview#Open(<f-args>)
 function! mlirview#Open(source_file, lowered_file)
   " Parse the loc mappings from the lowered file
   call mlirview#ParseLocMap(a:lowered_file)
@@ -59,4 +59,7 @@ function! mlirview#Open(source_file, lowered_file)
 endfunction
 
 " Clear highlights on closing files
-autocmd BufUnload * call matchdelete(g:mlirview_hl_match_id)
+augroup MLIRView
+  autocmd!
+  autocmd BufUnload * call matchdelete(g:mlirview_hl_match_id)
+augroup END
